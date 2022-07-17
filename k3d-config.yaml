@@ -1,0 +1,12 @@
+---
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: multi-node-cluster
+servers: 1
+agents: 2
+image: docker.io/rancher/k3s:v1.23.6-k3s1
+volumes:
+  - volume: "${PWD}/custom-charts:/var/lib/rancher/k3s/server/manifests/custom-charts"
+    nodeFilters:
+      - server:0

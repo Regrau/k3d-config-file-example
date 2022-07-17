@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mysql
+  namespace: mysql
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb
+  app: mysql
+  namespace: mysql
+data:
+  initdb.sql: |-
+    CREATE DATABASE IF NOT EXISTS `some_local_db`;
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: mysql
+  namespace: mysql
+spec:
+  chart: mysql
+  repo: https://charts.bitnami.com/bitnami
+  targetNamespace: mysql
+  version: v9.2.0
+  set:
+  valuesContent: |-
+    initdbScriptsConfigMap: mysql-initdb
